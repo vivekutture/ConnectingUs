@@ -49,7 +49,6 @@ public class SplashActivity extends AppCompatActivity {
     StorageReference storageReference;
 
     static Context context;
-    static boolean checkpermission=true;
     public static ArrayList<ContactModel> arrayList=new ArrayList<ContactModel>();
 
 
@@ -69,7 +68,6 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... strings) {
-            //SplashActivity obj=new SplashActivity();
             arrayList.clear();
            getContactList();
             getUserIDs();
@@ -86,11 +84,6 @@ public class SplashActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash);
         firebaseAuth = FirebaseAuth.getInstance();
-      checkPermission();
-      /*while (checkpermission)
-      {
-
-      }*/
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -110,14 +103,12 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-       // getCacheDir().delete();
         super.onDestroy();
     }
 
 public  void executeTask()
 {
     BgTaskContacts mytask=new BgTaskContacts();
-    //SplashActivity obj=new SplashActivity(mytask);
     mytask.execute("null");
 }
     public static void deleteCache()
@@ -189,7 +180,7 @@ public  void executeTask()
                 }
                 catch(Exception e){}
 
-                //model.setImage(bmImg);
+
             }
         });
     }
@@ -224,25 +215,6 @@ public  void executeTask()
             }
         });
     }
-    public  void checkPermission() {
-        if(ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)== PackageManager.PERMISSION_GRANTED)
-        {
-            executeTask();
-        }
-
-       /* if(ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(SplashActivity.this,new String[]{Manifest.permission.READ_CONTACTS},100);
-        }
-        else
-        {
-            checkpermission=false;
-            BgTaskContacts mytask=new BgTaskContacts();
-            //SplashActivity obj=new SplashActivity(mytask);
-            mytask.execute("null");
-        }*/
-
-    }
     private void getContactList() {
 
         arrayList.clear();
@@ -269,7 +241,6 @@ public  void executeTask()
                     @SuppressLint("Range") String number=phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                     //initialize contact model
                     ContactModel model=new ContactModel();
-                    //ImageView ivContactProf = findViewById(R.id.iv_image_item_contact);
 
                     verifyNumber =number.replaceAll("\\s", "");
                     if(!verifyNumber.contains("+91")) {
@@ -312,7 +283,7 @@ public  void executeTask()
             }
             cursor.close();
         }
-        // Log.d("list of userids", userids);
+
     }
 
     public static ArrayList<ContactModel> getArrayList()
